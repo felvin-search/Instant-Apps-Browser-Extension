@@ -1,0 +1,16 @@
+{
+    "name": "Felvin Instant Apps Browser Extension",
+    "description": "Extension to show relevant Instant Apps on your search query",
+    "version": "0.1.0",
+    "manifest_version": 3,
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.google.com/search*"
+            ],
+            "js": [
+                "content.bundle.js"
+            ]
+        }
+    ]
+}
