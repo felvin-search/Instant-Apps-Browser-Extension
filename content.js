@@ -12,7 +12,7 @@ async function renderApp(query) {
             if (!!data) {
             render(
                 <app.Component data={data} />,
-                document.querySelector("#injected")
+                document.querySelector("#injected-app")
             );
             return;
             }
@@ -22,11 +22,22 @@ async function renderApp(query) {
     }
 }
 
-const injectedDiv = document.createElement("div");
-injectedDiv.id = "injected";
+const injectedApp = document.createElement("div");
+injectedApp.id = "injected-app";
+injectedApp.style.marginBottom = "1rem";
+injectedApp.style.border = "1px solid grey";
+
 const query = new URLSearchParams(window.location.search).get("q");
-console.log(query);
+
+const felvinPrompt = document.createElement("a");
+felvinPrompt.id = "felvin-prompt";
+felvinPrompt.innerText = "Search on Felvin instead";
+felvinPrompt.href = `https://felvin.com/search?q=${query}`;
+felvinPrompt.style.display = "block";
+felvinPrompt.style.marginBottom = "1rem";
+
 const parentDiv = document.querySelector("#rso");
-parentDiv.insertBefore(injectedDiv, parentDiv.firstChild);
+parentDiv.insertBefore(felvinPrompt, parentDiv.firstChild);
+parentDiv.insertBefore(injectedApp, felvinPrompt.nextSibling);
 
 renderApp(query);
