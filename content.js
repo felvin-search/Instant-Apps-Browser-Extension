@@ -26,6 +26,7 @@ const injectedApp = document.createElement("div");
 injectedApp.id = "injected-app";
 injectedApp.style.marginBottom = "1rem";
 injectedApp.style.border = "1px solid grey";
+injectedApp.style.overflow = "auto";
 
 const query = new URLSearchParams(window.location.search).get("q");
 
