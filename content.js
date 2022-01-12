@@ -34,7 +34,7 @@ const felvinPrompt = document.createElement("a");
 felvinPrompt.id = "felvin-prompt";
 felvinPrompt.innerText = "Search on Felvin instead";
 felvinPrompt.href = `https://felvin.com/search?q=${query}`;
-felvinPrompt.style.display = "block";
+felvinPrompt.style.display = "inline-block";
 felvinPrompt.style.marginBottom = "1rem";
 
 const parentDiv = document.querySelector("#rso");
