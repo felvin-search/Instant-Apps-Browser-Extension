@@ -41,4 +41,9 @@ const parentDiv = document.querySelector("#rso");
 parentDiv.insertBefore(felvinPrompt, parentDiv.firstChild);
 parentDiv.insertBefore(injectedApp, felvinPrompt.nextSibling);
 
+// counter the search button shift
+const searchBarArea = document.querySelector("#tsf");
+const searchButton = searchBarArea.querySelector(".Tg7LZd")
+searchButton.style.margin = 0;
+
 renderApp(query);
