@@ -1,0 +1,19 @@
+name: Build and Zip Extension
+
+on:
+  push:
+    paths:
+      - 'dist/**'
+      - 'content.js'
+      - 'package.json'
+      - 'webpack.config.js'
+
+jobs:
+  build-and-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build
+      - run: zip -r chromeExt.zip dist
+      - uses: EndBug/add-and-commit@v7
