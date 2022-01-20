@@ -28,11 +28,9 @@ function preparePageForApp() {
 
 async function renderApp(query) {
     for (const app of apps) {
-      // Question: Not all apps need to return data.
-      // TODO: Clearly define what is success and what is failure criteria for these apps somewhere.
         try {
             const data = await app.queryToData({ query });
-            // TODO: This will always render the first app
+            // Note: This will always render the first app
             if (!!data) {
                 preparePageForApp();
                 render(
@@ -47,6 +45,9 @@ async function renderApp(query) {
     }
 }
 
-const query = new URLSearchParams(window.location.search).get("q");
+// this attribute reacts to automatic spelling corrections in searched query by google
+// url parameter may not be the query that google actually uses for results
+const query = decodeURIComponent(document.querySelector("#rso").getAttribute("data-async-context").substring(6));
+console.log(query)
 
 renderApp(query);
