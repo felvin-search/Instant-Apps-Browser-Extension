@@ -1,7 +1,7 @@
 {
-    "name": "Felvin Instant Apps Browser Extension",
+    "name": "Felvin -- Google search enhancer for programmers",
     "description": "Extension to show relevant Instant Apps on your search query",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "manifest_version": 3,
     "content_scripts": [
         {
