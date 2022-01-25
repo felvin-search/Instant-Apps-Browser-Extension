@@ -19,11 +19,6 @@ function preparePageForApp() {
     const parentDiv = document.querySelector("#rso");
     parentDiv.insertBefore(felvinPrompt, parentDiv.firstChild);
     parentDiv.insertBefore(injectedApp, felvinPrompt.nextSibling);
-    
-    // counter the search button shift
-    const searchBarArea = document.querySelector("#tsf");
-    const searchButton = searchBarArea.querySelector(".Tg7LZd")
-    searchButton.style.margin = 0;
 }
 
 async function renderApp(query) {
@@ -48,6 +43,10 @@ async function renderApp(query) {
 // this attribute reacts to automatic spelling corrections in searched query by google
 // url parameter may not be the query that google actually uses for results
 const query = decodeURIComponent(document.querySelector("#rso").getAttribute("data-async-context").substring(6));
-console.log(query)
+
+// counter the search button shift
+const searchBarArea = document.querySelector("#tsf");
+const searchButton = searchBarArea.querySelector(".Tg7LZd")
+searchButton.style.margin = 0;
 
 renderApp(query);
