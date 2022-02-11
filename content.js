@@ -35,7 +35,7 @@ async function renderApp(query) {
                 return;
             }
         } catch (error) {
-            console.log(`${error} in ${app}`);
+            console.log(`${error} in ${app.name}`);
         }
     }
 }
@@ -49,4 +49,11 @@ const searchBarArea = document.querySelector("#tsf");
 const searchButton = searchBarArea.querySelector(".Tg7LZd")
 searchButton.style.margin = 0;
 
+// checking if Google already has an app
+// (The "ULSxyf" class is for results(divs) which aren't links to websites, like apps,
+// videos, images, "People Also Ask" and "Related searches" sections. Since apps are
+// always the first result, if the first div has this class, it means it's an app.)
+const googleHasApp = document.querySelector("#rso > div:first-of-type").classList.contains("ULSxyf");
+
+if(!googleHasApp)
 renderApp(query);
