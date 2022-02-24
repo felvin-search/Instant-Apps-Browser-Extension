@@ -1,6 +1,36 @@
 import React from "react";
 import { render } from "react-dom";
 import apps from "@felvin-search/apps";
+import styled from "styled-components";
+
+const Div = styled.div`
+    border: 2px solid grey;
+    padding: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+`
+
+function Welcome() {
+    return (
+        <Div>
+            <h3>Welcome to Felvin!</h3>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur natus perspiciatis quas mollitia iusto quos accusantium at repellendus similique commodi alias suscipit, libero, ipsum eveniet voluptatum animi fuga. Pariatur, asperiores!</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur natus perspiciatis quas mollitia iusto quos accusantium at repellendus similique commodi alias suscipit, libero, ipsum eveniet voluptatum animi fuga. Pariatur, asperiores!</p>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur natus perspiciatis quas mollitia iusto quos accusantium at repellendus similique commodi alias suscipit, libero, ipsum eveniet voluptatum animi fuga. Pariatur, asperiores!</p>
+        </Div>
+    )
+}
+
+function renderOnboarding() {
+    const welcome = document.createElement("div");
+    welcome.id = "felvin-apps-extension-welcome";
+    const parentDiv = document.querySelector("#rso");
+    parentDiv.insertBefore(welcome, parentDiv.firstChild);
+    render(
+        <Welcome />,
+        document.querySelector("#felvin-apps-extension-welcome")
+    );
+}
 
 function preparePageForApp() {
     const injectedApp = document.createElement("div");
@@ -17,7 +47,9 @@ function preparePageForApp() {
     felvinPrompt.style.marginBottom = "1rem";
 
     const parentDiv = document.querySelector("#rso");
-    parentDiv.insertBefore(felvinPrompt, parentDiv.firstChild);
+    const welcome = document.querySelector("#felvin-apps-extension-welcome")
+    if(welcome) parentDiv.insertBefore(felvinPrompt, welcome.nextSibling)
+    else parentDiv.insertBefore(felvinPrompt, parentDiv.firstChild);
     parentDiv.insertBefore(injectedApp, felvinPrompt.nextSibling);
 }
 
@@ -38,6 +70,11 @@ async function renderApp(query) {
             console.log(`${error} in ${app.name}`);
         }
     }
+}
+
+if(!localStorage.getItem("searchedSinceInstall")) {
+    // localStorage.setItem("searchedSinceInstall", "true") <-- uncomment when testing is done
+    renderOnboarding()
 }
 
 // this attribute reacts to automatic spelling corrections in searched query by google
