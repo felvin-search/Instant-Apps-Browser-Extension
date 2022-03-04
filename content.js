@@ -10,12 +10,28 @@ const Div = styled.div`
     margin-bottom: 1rem;
 `
 
+const Heading = styled.h2`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`
+
+const Logo = styled.img`
+    height: 48px;
+    width: 48px;
+`
+
+const DemoVideo = styled.video`
+    margin: 0.5rem auto;
+    width: 90%;
+    display: block;
+`
+
 function Welcome() {
     return (
         <Div>
-            <h3>Welcome to Felvin!</h3>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur natus perspiciatis quas mollitia iusto quos accusantium at repellendus similique commodi alias suscipit, libero, ipsum eveniet voluptatum animi fuga. Pariatur, asperiores!</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur natus perspiciatis quas mollitia iusto quos accusantium at repellendus similique commodi alias suscipit, libero, ipsum eveniet voluptatum animi fuga. Pariatur, asperiores!</p>
+            <Heading><Logo src={chrome.runtime.getURL("assets/logo_48x48.png")} alt={"felvin logo"}/> Welcome to Felvin!</Heading>            
+            <DemoVideo src="https://github.com/felvin-search/extension-demo/blob/master/demo.mp4?raw=true" controls loop></DemoVideo>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur natus perspiciatis quas mollitia iusto quos accusantium at repellendus similique commodi alias suscipit, libero, ipsum eveniet voluptatum animi fuga. Pariatur, asperiores!</p>
         </Div>
     )
