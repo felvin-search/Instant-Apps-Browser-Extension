@@ -2,6 +2,7 @@ import React from "react"
 import { render } from "react-dom"
 import apps from "@felvin-search/apps"
 import styled from "styled-components"
+import { supabase } from './supabaseClient'
 
 const Div = styled.div`
     border: 2px solid grey;
@@ -31,11 +32,11 @@ const DemoVideo = styled.video`
 function Welcome() {
     return (
         <Div>
-            <Heading><Logo src={chrome.runtime.getURL("assets/logo_48x48.png")} alt={"felvin logo"}/> Welcome to Felvin!</Heading>            
+            <Heading><Logo src={chrome.runtime.getURL("assets/logo_48x48.png")} alt={"felvin logo"} /> Welcome to Felvin!</Heading>
             <DemoVideo src="https://github.com/felvin-search/extension-demo/blob/master/demo.mp4?raw=true" controls loop></DemoVideo>
-            <p>The <b>Felvin: Google Search Enhancer for Developers Extension</b> adds helpful <a href="https://docs.felvin.com/instant-apps/marketplace">Instant Apps</a> at 
-            the top of your Google Search Results page whenever we feel we have an Instant App relevant to your query. Otherwise, it lets your Search Results page stay as is, 
-            for a seamless search experience!</p>
+            <p>The <b>Felvin: Google Search Enhancer for Developers Extension</b> adds helpful <a href="https://docs.felvin.com/instant-apps/marketplace">Instant Apps</a> at
+                the top of your Google Search Results page whenever we feel we have an Instant App relevant to your query. Otherwise, it lets your Search Results page stay as is,
+                for a seamless search experience!</p>
         </Div>
     )
 }
@@ -60,22 +61,56 @@ function preparePageForApp() {
 
     const felvinPrompt = document.createElement("a")
     felvinPrompt.id = "felvin-prompt"
-    felvinPrompt.innerText = "Search on Felvin instead"
-    felvinPrompt.href = `https://felvin.com/search?q=${query}`
+    felvinPrompt.innerText = "Apps by Felvin"
+    felvinPrompt.href = `https://felvin.com/`
     felvinPrompt.style.display = "inline-block"
     felvinPrompt.style.marginBottom = "1rem"
 
     const parentDiv = document.querySelector("#rso")
     const welcome = document.querySelector("#felvin-apps-extension-welcome")
-    if(welcome) parentDiv.insertBefore(felvinPrompt, welcome.nextSibling)
+    if (welcome) parentDiv.insertBefore(felvinPrompt, welcome.nextSibling)
     else parentDiv.insertBefore(felvinPrompt, parentDiv.firstChild);
     parentDiv.insertBefore(injectedApp, felvinPrompt.nextSibling);
 }
+//function to collect data
+async function collectData(appId, data, query,count) {
+   
+    if (data) {
+       
+        try {
+            const { data, error } = await supabase
+                .from('instant-apps-stats')
+                .insert([{ app_id: appId, query }])
+            //console.log(data)
+            throw error
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+    else if(count==apps.length-1){
+      
+        try {
+            const { data, error } = await supabase
+                .from('instant-apps-stats')
+                .insert([{ app_id: "not_found", query }])
+            //console.log(data)
+            throw error
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 
 async function renderApp(query) {
+    let it=1;
     for (const app of apps) {
+       
         try {
             const data = await app.queryToData({ query })
+            //function to collect data
+            collectData(app.id, data, query,it)
+            it++;
             // Note: This will always render the first app
             if (!!data) {
                 preparePageForApp()
@@ -88,10 +123,11 @@ async function renderApp(query) {
         } catch (error) {
             console.log(`${error} in ${app.name}`)
         }
+       
     }
 }
 
-if(!localStorage.getItem("searchedSinceInstall")) {
+if (!localStorage.getItem("searchedSinceInstall")) {
     localStorage.setItem("searchedSinceInstall", "true")
     renderOnboarding()
 }
@@ -111,5 +147,5 @@ searchButton.style.margin = 0
 // always the first result, if the first div has this class, it means it's an app.)
 const googleHasApp = document.querySelector("#rso > div:first-of-type").classList.contains("ULSxyf")
 
-if(!googleHasApp)
+// if(!googleHasApp)
 renderApp(query);

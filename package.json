@@ -4,13 +4,16 @@
   "description": "Injects Felvin Instant Apps into your Google Search Page according to your searched query!",
   "main": "content.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@felvin-search/apps": "1.57.0",
+    "@felvin-search/apps": "1.91.0",
+    "@supabase/supabase-js": "^2.0.0-rc.4",
+    "dotenv": "^16.0.1",
+    "os-browserify": "^0.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "styled-components": "^5.3.3"
