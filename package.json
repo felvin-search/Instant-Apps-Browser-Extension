@@ -4,7 +4,7 @@
   "description": "Injects Felvin Instant Apps into your Google Search Page according to your searched query!",
   "main": "content.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack "
   },
   "keywords": [],
   "author": "",

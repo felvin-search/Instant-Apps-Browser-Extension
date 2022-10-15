@@ -73,8 +73,10 @@ function preparePageForApp() {
     parentDiv.insertBefore(injectedApp, felvinPrompt.nextSibling);
 }
 //function to collect data
-async function collectData(appId, data, query) {
+async function collectData(appId, data, query,count) {
+   
     if (data) {
+       
         try {
             const { data, error } = await supabase
                 .from('instant-apps-stats')
@@ -86,14 +88,29 @@ async function collectData(appId, data, query) {
         }
 
     }
+    else if(count==apps.length-1){
+      
+        try {
+            const { data, error } = await supabase
+                .from('instant-apps-stats')
+                .insert([{ app_id: "not_found", query }])
+            //console.log(data)
+            throw error
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 async function renderApp(query) {
+    let it=1;
     for (const app of apps) {
+       
         try {
             const data = await app.queryToData({ query })
             //function to collect data
-            collectData(app.id, data, query)
+            collectData(app.id, data, query,it)
+            it++;
             // Note: This will always render the first app
             if (!!data) {
                 preparePageForApp()
@@ -106,6 +123,7 @@ async function renderApp(query) {
         } catch (error) {
             console.log(`${error} in ${app.name}`)
         }
+       
     }
 }
 
